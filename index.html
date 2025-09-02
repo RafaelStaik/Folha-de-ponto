@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Folha de Ponto</title>
+    <link rel="icon" type="image/png-icon" href="Ícone Login.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Estilos básicos para o formulário de login */
+        body {
+            font-family: 'Poppins', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background: url('Fundo Login.jpg') no-repeat center center fixed;
+            background-size: cover;
+            color: #333;
+        }
+
+        .login-container {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            text-align: center;
+            width: 90%;
+            max-width: 380px;
+        }
+
+        h1 {
+            color: white;
+            margin-bottom: 30px;
+            font-weight: 600;
+        }
+
+        .input-group {
+            position: relative;
+            margin-bottom: 25px;
+        }
+
+        .input-group input {
+            width: calc(100% - 50px);
+            padding: 12px 12px 12px 40px;
+            border-radius: 5px;
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            background-color: transparent; /* Fundo transparente ao preencher/digitar */
+            font-size: 16px;
+            color: white; /* Texto em branco ao preencher/digitar */
+            outline: none;
+            transition: border-color 0.3s ease;
+        }
+
+        /* Estilos para inputs preenchidos automaticamente (autofill) */
+        /* Aumentando a profundidade da sombra para garantir que cubra mais */
+        input:-webkit-autofill,
+        input:-webkit-autofill:hover,
+        input:-webkit-autofill:focus,
+        input:-webkit-autofill:active {
+            -webkit-box-shadow: 0 0 0px 9999px transparent inset !important; /* Valor maior */
+            box-shadow: 0 0 0px 9999px transparent inset !important; /* Valor maior */
+            -webkit-text-fill-color: white !important; /* Cor do texto */
+            background-color: transparent !important; /* Fundo transparente */
+            color: white !important; /* Cor do texto */
+            caret-color: white !important; /* Cor do cursor */
+            /* Transição para suavizar a mudança se o navegador ainda aplicar algum efeito */
+            transition: background-color 5000s ease-in-out 0s !important; 
+        }
+        
+        /* Regra adicional para garantir a cor do texto para Firefox e outros não-webkit */
+        input:-moz-autofill {
+            -moz-text-fill-color: white !important;
+            background-color: transparent !important;
+            color: white !important;
+            caret-color: white !important;
+        }
+        
+        /* Uma tentativa extra para inputs quando autofill está selecionado internamente (experimental) */
+        input:-internal-autofill-selected {
+            -webkit-box-shadow: 0 0 0px 9999px transparent inset !important;
+            box-shadow: 0 0 0px 9999px transparent inset !important;
+            background-color: transparent !important;
+            color: white !important;
+            -webkit-text-fill-color: white !important;
+            caret-color: white !important;
+        }
+
+
+        .input-group input:focus {
+            border-color: #3498db;
+        }
+
+        .input-group .icon {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .input-group input::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+        
+        button {
+            width: 100%;
+            padding: 12px;
+            margin-top: 30px;
+            border: none;
+            background-color: white;
+            color: #3498db;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 17px;
+            font-weight: 600;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #f0f0f0;
+            color: #2980b9;
+        }
+
+        #error-message {
+            color: #e74c3c;
+            margin-top: 15px;
+            height: 20px;
+            font-weight: 500;
+        }
+
+        p {
+            color: white;
+            margin-top: 25px;
+            font-size: 0.95em;
+        }
+        p a {
+            color: #3498db;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        p a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <h1>Login</h1>
+        <form id="loginForm">
+            <div class="input-group">
+                <i class="fas fa-user icon"></i>
+                <input type="text" id="username" placeholder="Usuário" required>
+            </div>
+            <div class="input-group">
+                <i class="fas fa-lock icon"></i>
+                <input type="password" id="password" placeholder="Senha" required>
+            </div>
+            
+            <button type="submit">Entrar</button>
+        </form>
+        <p id="error-message"></p>
+        
+        <p>Não tem uma conta? <a href="cadastro.html">Cadastre-se</a></p>
+    </div>
+
+    <script src="login.js"></script>
+</body>
+</html>

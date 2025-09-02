@@ -1,0 +1,148 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+}
+
+.container {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 700px;
+    position: relative;
+}
+
+h1 {
+    text-align: center;
+    color: #333;
+}
+
+h2 {
+    color: #007bff;
+    border-bottom: 2px solid #eee;
+    padding-bottom: 5px;
+    margin-top: 25px;
+}
+
+.input-section, .result-section, .inss-table-section {
+    margin-bottom: 30px;
+}
+
+.input-group {
+    margin-bottom: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.input-group label {
+    font-weight: bold;
+    color: #555;
+    flex: 1;
+}
+
+.input-group input, .input-group select {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    flex: 2;
+    margin-left: 10px;
+}
+
+button {
+    width: 100%;
+    padding: 12px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-bottom: 10px;
+}
+
+button:hover {
+    background-color: #218838;
+}
+
+.result-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 0;
+    border-bottom: 1px dashed #ddd;
+}
+
+.result-item p {
+    margin: 0;
+    font-size: 1em;
+    color: #555;
+}
+
+.result-item span, .result-item h3 {
+    font-weight: bold;
+    color: #333;
+}
+
+.result-item.total {
+    font-size: 1.1em;
+    font-weight: bold;
+    color: #000;
+}
+
+.result-item.final-total h3 {
+    color: #28a745;
+    margin: 0;
+}
+
+.result-item.final-total span {
+    font-size: 1.5em;
+    color: #28a745;
+}
+
+/* Estilo para a tabela de INSS */
+.inss-table-section table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+}
+
+.inss-table-section th, .inss-table-section td {
+    border: 1px solid #ccc;
+    padding: 10px;
+    text-align: left;
+}
+
+.inss-table-section thead {
+    background-color: #f8f9fa;
+}
+
+.inss-table-section th {
+    font-weight: bold;
+    color: #495057;
+}
+
+.inss-table-section tbody tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+.back-button {
+    background-color: #6c757d;
+    margin-top: 15px;
+}
+
+.back-button:hover {
+    background-color: #5a6268;
+}
+
+.button-container {
+    display: flex;
+    flex-direction: column;
+    margin-top: 20px;
+}

@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1" name="viewport" />
+    <title>Folha de Ponto - TARGET</title>
+    <link rel="icon" type="image/png-icon" href="Ícone Folha de Ponto.png">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="style_folha_de_ponto.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
+  </head>
+  <body>
+    <header id="headerSection" role="banner">
+      <img
+        alt="Logo TARGET Serviços e Facilities"
+        class="logo"
+        height="70"
+        src="Logo TARGET - Oficial.png"
+        width="150"
+      />
+      <div class="header-text">
+        <h1 id="employeeNameDisplay">Folha de Ponto - TARGET</h1>
+        <p>Funcionário: <span id="employeeNameText"></span></p>
+        <div id="monthLabelContainer">
+          <button id="prevMonthBtn" class="nav-month-btn" aria-label="Mês anterior">‹</button>
+          <p aria-live="polite" id="monthLabel">Mês</p>
+          <button id="nextMonthBtn" class="nav-month-btn" aria-label="Proximo mês">›</button>
+        </div>
+      </div>
+    </header>
+    <main aria-label="Folha de ponto mensal" id="pdfContainer" role="main">
+      <table>
+        <thead>
+          <tr>
+            <th scope="col">DIA</th>
+            <th scope="col">ENTRADA</th>
+            <th scope="col">INTERVALO (INÍCIO)</th>
+            <th scope="col">INTERVALO (FIM)</th>
+            <th scope="col">SAÍDA</th>
+            <th scope="col">ANOTAÇÕES</th>
+            <th scope="col">AÇÕES</th>
+          </tr>
+        </thead>
+        <tbody id="tabelaDados"></tbody>
+      </table>
+    </main>
+    <div class="user-menu">
+      <div class="theme-switch-wrapper">
+        <label class="theme-switch" for="theme-toggle" title="Alternar tema">
+            <input type="checkbox" id="theme-toggle" />
+            <div class="slider round"></div>
+        </label>
+      </div>
+      <button id="userMenuBtn" aria-label="Menu do Usuário" title="Menu do Usuário"><i class="fas fa-user"></i></button>
+      <div id="userDropdown" class="dropdown-menu">
+        <a href="#" id="settingsLink"><i class="fas fa-cog"></i> Configurações</a>
+        <a href="#" id="logoutLink" class="logout-link"><i class="fas fa-sign-out-alt"></i> Sair</a>
+      </div>
+    </div>
+    <div aria-label="Menu de ações rápidas" id="floatingMenuContainer" role="region">
+      <button aria-controls="floatingButtons" aria-expanded="false" id="floatingToggleBtn" title="Abrir menu">☰</button>
+      <div aria-hidden="true" id="floatingButtons" role="group">
+        <button id="baterPontoBtn" aria-label="Registrar ponto" title="Registrar ponto"><i class="fas fa-clock"></i></button>
+        <button id="limparDadosBtn" aria-label="Limpar todos os dados" title="Limpar todos os dados"><i class="fas fa-trash-alt"></i></button>
+        <button id="exportExcelBtn" aria-label="Exportar para Excel" title="Exportar para Excel"><i class="fas fa-file-excel"></i></button>
+        <button id="exportPdfBtn" aria-label="Exportar para PDF" title="Exportar para PDF"><i class="fas fa-file-pdf"></i></button>
+        <a id="calcularBtn" href="../Arquivos calculo de folha/Cálculo de folha.html" class="action-button" aria-label="Calcular pagamento" title="Calcular pagamento">
+          <i class="fas fa-calculator"></i>
+        </a>
+      </div>
+    </div>
+    <div aria-labelledby="editModalTitle" aria-modal="true" id="editModal" class="modal-backdrop" role="dialog" tabindex="-1">
+      <div class="modal-content">
+        <h2 id="editModalTitle">Editar Ponto</h2>
+        <form id="editForm" novalidate>
+          <label for="entradaInput">Entrada</label>
+          <input aria-describedby="entradaHelp" autocomplete="off" id="entradaInput" name="entrada" type="time" />
+          <label for="saidaInput">Saída</label>
+          <input aria-describedby="saidaHelp" autocomplete="off" id="saidaInput" name="saida" type="time" />
+          <label for="anotacoesInput">Anotação Pessoal</label>
+          <textarea id="anotacoesInput" name="anotacoes" rows="3" placeholder="Ex: Saí mais cedo, consulta médica."></textarea>
+          <div class="modal-buttons">
+            <button id="cancelEditBtn" type="button" class="cancel-btn">Cancelar</button>
+            <button id="saveEditBtn" type="submit" class="save-btn">Salvar</button>
+          </div>
+        </form>
+      </div>
+    </div>
+<div aria-labelledby="settingsModalTitle" aria-modal="true" id="settingsModal" class="modal-backdrop" role="dialog" tabindex="-1">
+    <div class="modal-content">
+        <h2 id="settingsModalTitle"><i class="fas fa-cog"></i> Configurações</h2>
+        <form id="settingsForm">
+
+            <div class="form-section">
+                <h3><i class="fas fa-user-circle"></i> Informações Pessoais</h3>
+                <div class="form-group">
+                    <label for="employeeNameSetting">Nome do Funcionário</label>
+                    <input type="text" id="employeeNameSetting" name="employeeNameSetting" required />
+                </div>
+            </div>
+
+            <div class="form-section">
+                <h3><i class="fas fa-calendar-alt"></i> Configurações da Jornada</h3>
+
+                <div class="form-group">
+                    <label for="workScheduleSetting">Jornada de Trabalho</label>
+                    <select id="workScheduleSetting" name="workScheduleSetting">
+                       <option value="2ª a 6ª">Seg a Sex</option>
+                       <option value="2ª a Sábado">Seg a Sábado</option>
+                       <option value="Dom a Sábado">Dom a Sábado</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Tipo de Turno</label>
+                    <div class="segmented-control" id="shiftTypeSetting">
+                        <input type="radio" id="shift-diurno" name="shiftType" value="1" checked>
+                        <label for="shift-diurno">1º Turno</label>
+                        <input type="radio" id="shift-noturno" name="shiftType" value="2">
+                        <label for="shift-noturno">2º Turno</label>
+                        <input type="radio" id="shift-misto" name="shiftType" value="3">
+                        <label for="shift-misto">3º Turno</label>
+                    </div>
+                </div>
+
+                <div class="form-group time-group">
+                    <div class="time-input-wrapper">
+                        <label for="entryTimeSetting">Entrada</label>
+                        <input type="time" id="entryTimeSetting" name="entryTimeSetting" />
+                    </div>
+                    <div class="time-input-wrapper">
+                        <label for="exitTimeSetting">Saída</label>
+                        <input type="time" id="exitTimeSetting" name="exitTimeSetting" />
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-section">
+                <h3><i class="fas fa-coffee"></i> Configurações de Intervalo</h3>
+                <div class="form-group time-group">
+                    <div class="time-input-wrapper">
+                        <label for="intervalInicioSetting">Início</label>
+                        <input type="time" id="intervalInicioSetting" name="intervalInicioSetting" />
+                    </div>
+                    <div class="time-input-wrapper">
+                        <label for="intervalFimSetting">Fim</label>
+                        <input type="time" id="intervalFimSetting" name="intervalFimSetting" />
+                    </div>
+                </div>
+            </div>
+
+            <div class="danger-zone form-section">
+                <h3><i class="fas fa-exclamation-triangle"></i> Zona de Perigo</h3>
+                <button type="button" id="deleteAccountBtn" class="danger-btn">
+                    Deletar minha conta permanentemente
+                </button>
+            </div>
+
+            <div class="modal-buttons">
+                <button type="button" id="cancelSettingsBtn" class="cancel-btn">Cancelar</button>
+                <button type="submit" id="saveSettingsBtn" class="save-btn">Salvar</button>
+            </div>
+        </form>
+    </div>
+</div>
+    </div>
+    <div id="messageBox" class="modal-backdrop">
+        <div class="modal-content">
+            <h2 id="messageBoxTitle">Aviso</h2>
+            <p id="messageBoxText" style="margin:0; font-size:1.1rem;"></p>
+            <div id="messageBoxButtons" class="modal-buttons" style="justify-content: center;"></div>
+        </div>
+    </div>
+    <script src="https://cdn.sheetjs.com/xlsx-latest/package/dist/xlsx.full.min.js"></script>
+    <script src="base64.js"></script> 
+    <script src="script_folha_de_ponto.js"></script>
+  </body>
+</html>
